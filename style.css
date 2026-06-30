@@ -1,0 +1,731 @@
+/* ============================================================
+   FDI Indonesia Dashboard — Light / White Premium Theme
+   Font: Inter (Google Fonts)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ----------------------------------------------------------
+   1. CSS Custom Properties
+   ---------------------------------------------------------- */
+:root {
+  --bg-main: #f4f6fb;
+  --bg-card: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --accent-teal: #0d9488;
+  --accent-teal-light: #ccfbf1;
+  --accent-orange: #f59e0b;
+  --accent-orange-light: #fef3c7;
+  --accent-red: #ef4444;
+  --accent-blue: #3b82f6;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07),
+               0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+               0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* ----------------------------------------------------------
+   2. Reset & Base
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ----------------------------------------------------------
+   3. Container
+   ---------------------------------------------------------- */
+.dashboard-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ----------------------------------------------------------
+   4. Card
+   ---------------------------------------------------------- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ----------------------------------------------------------
+   5. Sticky Navigation
+   ---------------------------------------------------------- */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(244, 246, 251, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 0;
+}
+
+.tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ----------------------------------------------------------
+   6. Tab Buttons
+   ---------------------------------------------------------- */
+.tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  background: #f0f4f8;
+}
+
+.tab-btn.active {
+  background: var(--accent-teal);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+}
+
+/* ----------------------------------------------------------
+   7. Hero Section
+   ---------------------------------------------------------- */
+.hero-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.main-title {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: var(--accent-teal);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.authors-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.author-chip {
+  background: var(--accent-teal-light);
+  border: 1px solid rgba(13, 148, 136, 0.15);
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: var(--accent-teal);
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------
+   8. Sections
+   ---------------------------------------------------------- */
+.dashboard-section {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ----------------------------------------------------------
+   9. Info Grid
+   ---------------------------------------------------------- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.card h2 {
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.card p {
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+}
+
+.styled-list {
+  list-style: none;
+  padding: 0;
+}
+
+.styled-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.styled-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent-teal);
+  font-weight: bold;
+}
+
+/* ----------------------------------------------------------
+   10. Stats Grid
+   ---------------------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0 2.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  gap: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.bg-teal {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+}
+
+.bg-orange {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.15rem 0;
+  color: var(--text-primary);
+}
+
+.stat-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ----------------------------------------------------------
+   11. Charts
+   ---------------------------------------------------------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.chart-card {
+  padding: 1.5rem;
+}
+
+.chart-card h3 {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.chart-container-inner {
+  height: 280px;
+  position: relative;
+}
+
+/* ----------------------------------------------------------
+   12. Map Section
+   ---------------------------------------------------------- */
+.map-section {
+  margin-top: 2rem;
+}
+
+.map-container {
+  padding: 2rem;
+}
+
+.map-title {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.leaflet-map {
+  height: 420px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  z-index: 1;
+}
+
+.map-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+/* ----------------------------------------------------------
+   13. Cluster Section
+   ---------------------------------------------------------- */
+.cluster-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.cluster-card {
+  border-top: 4px solid;
+  padding: 2rem;
+}
+
+.cluster-0 {
+  border-top-color: var(--accent-teal);
+}
+
+.cluster-1 {
+  border-top-color: var(--accent-orange);
+}
+
+.cluster-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.cluster-count {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.cluster-provinces {
+  margin: 0.8rem 0;
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.cluster-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  background: #f8fafc;
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 1px solid #f1f5f9;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------
+   14. Regression Table
+   ---------------------------------------------------------- */
+.regression-table-container {
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modern-table th {
+  padding: 0.9rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.73rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  background: #f8fafc;
+}
+
+.modern-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.modern-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.modern-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.badge-significant,
+.badge-not-significant {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.badge-significant {
+  background: var(--accent-teal-light);
+  color: var(--accent-teal);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.badge-not-significant {
+  background: var(--accent-orange-light);
+  color: #b45309;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* ----------------------------------------------------------
+   15. Interpretation Cards
+   ---------------------------------------------------------- */
+.interp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.interp-card {
+  padding: 1.5rem;
+}
+
+.interp-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.interp-card p {
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.interp-highlight {
+  background: #f0fdfa;
+  border-left: 3px solid var(--accent-teal);
+  padding: 0.8rem 1rem;
+  border-radius: 0 8px 8px 0;
+  margin-top: 1rem;
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ----------------------------------------------------------
+   16. Dataset Section
+   ---------------------------------------------------------- */
+.search-container {
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input:focus {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.dataset-table-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+/* Custom Scrollbar */
+.dataset-table-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dataset-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dataset-table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dataset-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-teal);
+}
+
+/* ----------------------------------------------------------
+   17. Scroll Animations
+   ---------------------------------------------------------- */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ----------------------------------------------------------
+   18. Footer
+   ---------------------------------------------------------- */
+footer {
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+/* ----------------------------------------------------------
+   19. Utility Classes
+   ---------------------------------------------------------- */
+.text-teal {
+  color: var(--accent-teal);
+}
+
+.text-orange {
+  color: #b45309;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+/* ----------------------------------------------------------
+   20. Responsive
+   ---------------------------------------------------------- */
+@media (max-width: 768px) {
+  .info-grid,
+  .charts-grid,
+  .cluster-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tabs-nav {
+    gap: 0.3rem;
+  }
+
+  .tab-btn {
+    font-size: 0.75rem;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .leaflet-map {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  .dashboard-container {
+    padding: 1rem;
+  }
+}

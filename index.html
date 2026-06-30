@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard interaktif analisis dampak Foreign Direct Investment (FDI) terhadap pertumbuhan ekonomi dan kesejahteraan di 34 provinsi Indonesia, 2016-2023.">
+    <title>FDI Impact Dashboard — Indonesia 2016-2023</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet.js for Indonesia Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Custom -->
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
+    <script src="indonesia_map.js"></script>
+</head>
+<body>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="tabs-nav">
+            <button class="tab-btn active" data-target="overview"><i data-lucide="layout-dashboard" style="width:15px;height:15px"></i> Overview</button>
+            <button class="tab-btn" data-target="eda"><i data-lucide="bar-chart-2" style="width:15px;height:15px"></i> EDA & Tren</button>
+            <button class="tab-btn" data-target="clustering"><i data-lucide="scatter-chart" style="width:15px;height:15px"></i> Klasterisasi</button>
+            <button class="tab-btn" data-target="regression"><i data-lucide="trending-up" style="width:15px;height:15px"></i> Regresi Panel</button>
+            <button class="tab-btn" data-target="dataset"><i data-lucide="database" style="width:15px;height:15px"></i> Dataset</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+        <!-- ==================== SECTION 1: OVERVIEW ==================== -->
+        <section class="dashboard-section" id="overview">
+            <header class="hero-section card scroll-reveal">
+                <p class="subtitle">FINAL PROJECT · OFFICIAL STATISTICS · 2025/2026</p>
+                <h1 class="main-title">Klusterisasi Daya Tarik Investasi Asing dan Dampaknya terhadap Pertumbuhan Ekonomi dan Kesejahteraan Antar Provinsi di Indonesia</h1>
+                <p class="description">K-Means Clustering & Panel Data Regression · 34 Provinsi · 2016–2023</p>
+                <div class="authors-grid">
+                    <span class="author-chip">Sabrina Indy Safira</span>
+                    <span class="author-chip">Bhtari Divakalyana Putri</span>
+                    <span class="author-chip">M. Nauval Martha Aryasetya</span>
+                    <span class="author-chip">Ghaly Anargya Azzam R.N.</span>
+                    <span class="author-chip">Evan Nathaniel Susanto</span>
+                </div>
+                <p class="description" style="margin-top:1rem;font-size:0.82rem;">Teknologi Sains Data — FTMM, Universitas Airlangga</p>
+            </header>
+
+            <div class="info-grid scroll-reveal">
+                <div class="card">
+                    <h2><i data-lucide="info" style="width:18px;height:18px;color:var(--accent-teal)"></i> Konteks & Latar Belakang</h2>
+                    <p>Indonesia menerima PMA dalam jumlah besar setiap tahunnya, namun pertanyaan mendasar masih belum terjawab: <strong style="color:var(--accent-teal)">apakah investasi asing benar-benar meningkatkan kesejahteraan masyarakat di seluruh wilayah Indonesia?</strong></p>
+                    <p style="margin-top:0.7rem;">Meskipun pemerintah menerapkan kebijakan agresif (fasilitasi BKPM, tax holiday, KEK), FDI cenderung terkonsentrasi di wilayah yang sudah unggul, memunculkan disparitas antarprovinsi.</p>
+                </div>
+                <div class="card">
+                    <h2><i data-lucide="target" style="width:18px;height:18px;color:var(--accent-orange)"></i> Tujuan Penelitian</h2>
+                    <ul class="styled-list">
+                        <li>Mengidentifikasi pola pengelompokan (klaster) daya tarik investasi asing antarprovinsi.</li>
+                        <li>Menganalisis keterkaitan FDI dengan pertumbuhan ekonomi, kemiskinan, dan pengangguran terbuka.</li>
+                        <li>Menyediakan dasar bagi kebijakan investasi yang lebih inklusif secara spasial.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-grid scroll-reveal">
+                <div class="stat-card card">
+                    <div class="stat-icon bg-teal"><i data-lucide="dollar-sign" style="width:22px;height:22px"></i></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Rata-rata FDI</p>
+                        <h3 class="stat-value"><span class="counter-number" data-target="1004.43">0</span><span style="font-size:0.6em; margin-left:4px; color:var(--text-muted); font-weight:500;">Jt USD</span></h3>
+                        <p class="stat-desc">Per provinsi per tahun</p>
+                    </div>
+                </div>
+                <div class="stat-card card">
+                    <div class="stat-icon bg-orange"><i data-lucide="building-2" style="width:22px;height:22px"></i></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Pertumbuhan PDRB</p>
+                        <h3 class="stat-value"><span class="counter-number" data-target="4.38">0</span><span style="font-size:0.6em; margin-left:4px; color:var(--text-muted); font-weight:500;">%</span></h3>
+                        <p class="stat-desc">Rata-rata nasional</p>
+                    </div>
+                </div>
+                <div class="stat-card card">
+                    <div class="stat-icon bg-teal"><i data-lucide="users" style="width:22px;height:22px"></i></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Kemiskinan</p>
+                        <h3 class="stat-value"><span class="counter-number" data-target="10.70">0</span><span style="font-size:0.6em; margin-left:4px; color:var(--text-muted); font-weight:500;">%</span></h3>
+                        <p class="stat-desc">Rata-rata Maret</p>
+                    </div>
+                </div>
+                <div class="stat-card card">
+                    <div class="stat-icon bg-orange"><i data-lucide="briefcase" style="width:22px;height:22px"></i></div>
+                    <div class="stat-content">
+                        <p class="stat-label">Pengangguran (TPT)</p>
+                        <h3 class="stat-value"><span class="counter-number" data-target="5.08">0</span><span style="font-size:0.6em; margin-left:4px; color:var(--text-muted); font-weight:500;">%</span></h3>
+                        <p class="stat-desc">Rata-rata Agustus</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: EDA ==================== -->
+        <section class="dashboard-section" id="eda">
+            <div class="section-header scroll-reveal">
+                <h2 class="section-title">Exploratory Data Analysis</h2>
+                <p class="section-subtitle">Tren nasional dan distribusi data dari 4 variabel utama (2016–2023)</p>
+            </div>
+
+            <div class="charts-grid scroll-reveal">
+                <div class="card chart-card">
+                    <h3>Total PMA Nasional per Tahun (Juta USD)</h3>
+                    <div class="chart-container-inner"><canvas id="fdiChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Rata-rata PDRB per Kapita (Ribu Rp)</h3>
+                    <div class="chart-container-inner"><canvas id="pdrbChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Rata-rata Kemiskinan Nasional (%)</h3>
+                    <div class="chart-container-inner"><canvas id="povertyChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Rata-rata TPT Nasional Agustus (%)</h3>
+                    <div class="chart-container-inner"><canvas id="tptChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="card chart-card scroll-reveal" style="margin-top:1.5rem;">
+                <h3>Top 10 Provinsi: Rata-rata Realisasi PMA (Juta USD)</h3>
+                <div class="chart-container-inner" style="height:320px;"><canvas id="topProvChart"></canvas></div>
+            </div>
+
+            <div class="map-section scroll-reveal">
+                <div class="card map-container">
+                    <h3 class="map-title">Peta Distribusi FDI per Provinsi (Rata-rata 2016–2023)</h3>
+                    <div id="fdiMap" class="leaflet-map"></div>
+                    <div class="map-legend" id="fdiMapLegend"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: CLUSTERING ==================== -->
+        <section class="dashboard-section" id="clustering">
+            <div class="section-header scroll-reveal">
+                <h2 class="section-title">Hasil Klasterisasi K-Means</h2>
+                <p class="section-subtitle">Pengelompokan 34 provinsi berdasarkan 4 variabel · k=2 · Silhouette Score: 0.482</p>
+            </div>
+
+            <div class="cluster-grid scroll-reveal">
+                <div class="card cluster-card cluster-0">
+                    <h3 class="cluster-title">Klaster 0: Pusat Investasi</h3>
+                    <p class="cluster-count">5 Provinsi</p>
+                    <p class="cluster-provinces">Banten · DKI Jakarta · Jawa Barat · Maluku Utara · Sulawesi Tengah</p>
+                    <div class="cluster-metrics">
+                        <div class="metric-item"><span class="metric-label">PMA (Juta USD)</span><span class="metric-value text-teal">3,596.11</span></div>
+                        <div class="metric-item"><span class="metric-label">PDRB per Kapita</span><span class="metric-value text-teal">Tinggi</span></div>
+                        <div class="metric-item"><span class="metric-label">Kemiskinan</span><span class="metric-value text-teal">7.56%</span></div>
+                        <div class="metric-item"><span class="metric-label">TPT</span><span class="metric-value text-teal">6.58%</span></div>
+                    </div>
+                </div>
+                <div class="card cluster-card cluster-1">
+                    <h3 class="cluster-title">Klaster 1: Berkembang</h3>
+                    <p class="cluster-count">29 Provinsi</p>
+                    <p class="cluster-provinces">Seluruh provinsi lainnya dengan karakteristik lebih homogen</p>
+                    <div class="cluster-metrics">
+                        <div class="metric-item"><span class="metric-label">PMA (Juta USD)</span><span class="metric-value text-orange">557.59</span></div>
+                        <div class="metric-item"><span class="metric-label">PDRB per Kapita</span><span class="metric-value text-orange">Rendah</span></div>
+                        <div class="metric-item"><span class="metric-label">Kemiskinan</span><span class="metric-value text-orange">11.24%</span></div>
+                        <div class="metric-item"><span class="metric-label">TPT</span><span class="metric-value text-orange">4.83%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid scroll-reveal" style="margin-top:1.5rem;">
+                <div class="card chart-card">
+                    <h3>Perbandingan Klaster (Radar Chart)</h3>
+                    <div class="chart-container-inner"><canvas id="radarChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Scatter: PMA vs Kemiskinan (per Provinsi)</h3>
+                    <div class="chart-container-inner"><canvas id="scatterChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="map-section scroll-reveal">
+                <div class="card map-container">
+                    <h3 class="map-title">Peta Klaster Provinsi Indonesia</h3>
+                    <div id="clusterMap" class="leaflet-map"></div>
+                    <div class="map-legend">
+                        <div class="legend-item"><div class="legend-color" style="background:var(--accent-teal)"></div> Klaster 0: Pusat Investasi</div>
+                        <div class="legend-item"><div class="legend-color" style="background:var(--accent-orange)"></div> Klaster 1: Berkembang</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card scroll-reveal" style="margin-top:1.5rem;">
+                <h3 style="margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;font-size:1.05rem;color:var(--text-primary);"><i data-lucide="alert-triangle" style="width:18px;height:18px;color:var(--accent-orange)"></i> Paradoks Sulawesi Tengah</h3>
+                <p style="line-height:1.7;color:var(--text-secondary);font-size:0.9rem;">Sulawesi Tengah menerima rata-rata PMA terbesar ke-3 nasional (USD 3,106 juta) akibat boom smelter nikel, namun tingkat kemiskinannya masih <strong style="color:var(--accent-orange)">13.34%</strong> — lebih tinggi dari rata-rata nasional. Ini membuktikan bahwa investasi besar di sektor padat modal <em>tidak</em> otomatis menciptakan efek spillover yang luas bagi masyarakat lokal.</p>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 4: REGRESSION ==================== -->
+        <section class="dashboard-section" id="regression">
+            <div class="section-header scroll-reveal">
+                <h2 class="section-title">Regresi Panel — Random Effect Model</h2>
+                <p class="section-subtitle">Analisis hubungan PMA dengan pertumbuhan ekonomi & kesejahteraan · 32 Provinsi × 8 Tahun</p>
+            </div>
+
+            <div class="card scroll-reveal" style="margin-bottom:1.5rem;">
+                <h3 style="margin-bottom:1rem;font-size:0.9rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Alur Pemilihan Model</h3>
+                <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;font-size:0.82rem;">
+                    <span style="background:var(--accent-teal-light);padding:0.4rem 1rem;border-radius:8px;color:var(--accent-teal);font-weight:500;">Pooled OLS</span>
+                    <span style="color:var(--text-muted)">→</span>
+                    <span style="background:var(--accent-teal-light);padding:0.4rem 1rem;border-radius:8px;color:var(--accent-teal);font-weight:500;">Fixed Effect</span>
+                    <span style="color:var(--text-muted)">→</span>
+                    <span style="background:var(--accent-teal-light);padding:0.4rem 1rem;border-radius:8px;color:var(--accent-teal);font-weight:500;">Random Effect</span>
+                    <span style="color:var(--text-muted)">→</span>
+                    <span style="background:var(--accent-teal-light);padding:0.4rem 1rem;border-radius:8px;color:var(--accent-teal);font-weight:500;">Hausman Test</span>
+                    <span style="color:var(--text-muted)">→</span>
+                    <span style="background:var(--accent-teal);color:#fff;padding:0.4rem 1rem;border-radius:8px;font-weight:600;">✓ Random Effect</span>
+                </div>
+            </div>
+
+            <div class="card regression-table-container scroll-reveal">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Model (Y)</th>
+                            <th>Koef. PMA (β)</th>
+                            <th>Std. Error</th>
+                            <th>t-stat</th>
+                            <th>p-value</th>
+                            <th>R²</th>
+                            <th>Signifikan?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:600;color:var(--text-primary);">PMA → PDRB</td>
+                            <td class="text-teal font-bold">+1.3245</td>
+                            <td>0.7735</td>
+                            <td>1.7123</td>
+                            <td>0.0881</td>
+                            <td>0.0062</td>
+                            <td><span class="badge-not-significant">Tidak (α=5%)</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;color:var(--text-primary);">PMA → Kemiskinan</td>
+                            <td class="text-orange font-bold">−0.0002</td>
+                            <td>0.0000421</td>
+                            <td>−3.6023</td>
+                            <td>0.0004</td>
+                            <td>0.0293</td>
+                            <td><span class="badge-significant">✓ Signifikan</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;color:var(--text-primary);">PMA → TPT</td>
+                            <td class="text-orange font-bold">−0.0001</td>
+                            <td>0.0000389</td>
+                            <td>−2.6622</td>
+                            <td>0.0083</td>
+                            <td>0.0284</td>
+                            <td><span class="badge-significant">✓ Signifikan</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card chart-card scroll-reveal" style="margin-top:1.5rem;">
+                <h3>Visualisasi Koefisien Regresi</h3>
+                <div class="chart-container-inner" style="height:220px;"><canvas id="coefChart"></canvas></div>
+            </div>
+
+            <div class="interp-grid scroll-reveal">
+                <div class="card interp-card">
+                    <h3><span style="color:var(--accent-orange)">●</span> PMA → PDRB</h3>
+                    <p>Koefisien besar (+1.3245) namun <strong>tidak signifikan</strong> pada α=5% (p=0.088). R²=0.62% menunjukkan PMA hanya menjelaskan &lt;1% variasi PDRB.</p>
+                    <div class="interp-highlight">Variasi PDRB per Kapita antarprovinsi sangat tinggi (terutama DKI Jakarta) sehingga menginflasi standard error.</div>
+                </div>
+                <div class="card interp-card">
+                    <h3><span style="color:var(--accent-teal)">●</span> PMA → Kemiskinan</h3>
+                    <p>PMA terbukti signifikan mengurangi kemiskinan (p=0.0004), namun efek praktisnya sangat kecil: setiap 1 Juta USD PMA hanya menurunkan kemiskinan <strong>0.0002 poin persentase</strong>.</p>
+                    <div class="interp-highlight">R²=2.93% — kemiskinan lebih ditentukan oleh faktor struktural lain (pendidikan, infrastruktur, distribusi lahan).</div>
+                </div>
+                <div class="card interp-card">
+                    <h3><span style="color:var(--accent-teal)">●</span> PMA → TPT</h3>
+                    <p>PMA signifikan menurunkan pengangguran (p=0.008). Temuan menarik: Pooled OLS menunjukkan arah <em>positif</em>, namun Random Effect membaliknya menjadi negatif.</p>
+                    <div class="interp-highlight">Provinsi ber-PMA tinggi secara struktural memiliki TPT tinggi, tetapi ketika PMA naik year-over-year, TPT dalam provinsi tersebut turun.</div>
+                </div>
+            </div>
+
+            <div class="card scroll-reveal" style="margin-top:1.5rem;">
+                <h3 style="margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem;font-size:1.05rem;color:var(--text-primary);"><i data-lucide="lightbulb" style="width:18px;height:18px;color:var(--accent-orange)"></i> Kesimpulan Utama</h3>
+                <p style="line-height:1.8;color:var(--text-secondary);font-size:0.9rem;"><strong style="color:var(--accent-teal)">PMA di Indonesia belum menjadi mesin penggerak kesejahteraan yang merata.</strong> FDI terbukti statistik membantu mengurangi kemiskinan dan pengangguran, namun efeknya sangat kecil secara praktis. Diperlukan kebijakan pemerataan distribusi PMA ke luar Jawa, pengarahan investasi ke sektor padat karya, serta peningkatan kualitas SDM dan infrastruktur daerah sebagai kebijakan komplementer.</p>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 5: DATASET ==================== -->
+        <section class="dashboard-section" id="dataset">
+            <div class="section-header scroll-reveal">
+                <h2 class="section-title">Pratinjau Dataset</h2>
+                <p class="section-subtitle">Data gabungan PMA, PDRB, Kemiskinan, dan TPT dari 4 file CSV</p>
+            </div>
+
+            <div class="scroll-reveal">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="🔍  Cari provinsi atau tahun...">
+                </div>
+                <div class="card dataset-table-wrapper" style="padding:0;">
+                    <table class="modern-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Tahun</th>
+                                <th>Provinsi</th>
+                                <th>PMA (Jt USD)</th>
+                                <th>PDRB/Kap (Rb Rp)</th>
+                                <th>Kemiskinan (%)</th>
+                                <th>TPT (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody"></tbody>
+                    </table>
+                </div>
+                <p style="margin-top:0.7rem;text-align:center;color:var(--text-muted);font-size:0.78rem;" id="rowCount"></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Kelompok H · Teknologi Sains Data · Universitas Airlangga</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
