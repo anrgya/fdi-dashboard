@@ -239,7 +239,8 @@ function createLineChart(id, label, data, color) {
 function initCharts() {
     const t = processedData.yearlyTrend;
     createLineChart('fdiChart', 'Total PMA (Jt USD)', YEARS.map(y => +t[y].pmaTotal.toFixed(1)), TEAL);
-    createLineChart('pdrbChart', 'PDRB/Kap (Rb Rp)', YEARS.map(y => +t[y].pdrbAvg.toFixed(0)), ORANGE);
+    const pdrbGrowth = [5.40, 5.40, 5.50, 5.40, -1.70, 4.00, 5.60, 5.44];
+    createLineChart('pdrbChart', 'Pertumbuhan (%)', pdrbGrowth, ORANGE);
     createLineChart('povertyChart', 'Kemiskinan (%)', YEARS.map(y => +t[y].miskinAvg.toFixed(2)), RED);
     createLineChart('tptChart', 'TPT (%)', YEARS.map(y => +t[y].tptAvg.toFixed(2)), BLUE);
     initTopProvChart();
