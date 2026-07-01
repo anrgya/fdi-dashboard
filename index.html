@@ -207,7 +207,7 @@
         <section class="dashboard-section" id="regression">
             <div class="section-header scroll-reveal">
                 <h2 class="section-title">Regresi Panel — Random Effect Model</h2>
-                <p class="section-subtitle">Analisis hubungan PMA dengan pertumbuhan ekonomi & kesejahteraan · 32 Provinsi × 8 Tahun</p>
+                <p class="section-subtitle">Analisis hubungan PMA dengan pertumbuhan ekonomi & kesejahteraan · 34 Provinsi × 8 Tahun</p>
             </div>
 
             <div class="card scroll-reveal" style="margin-bottom:1.5rem;">
@@ -229,42 +229,34 @@
                 <table class="modern-table">
                     <thead>
                         <tr>
-                            <th>Model (Y)</th>
+                            <th>Variabel Dependen</th>
                             <th>Koef. PMA (β)</th>
-                            <th>Std. Error</th>
-                            <th>t-stat</th>
                             <th>p-value</th>
                             <th>R²</th>
-                            <th>Signifikan?</th>
+                            <th>Arah</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="font-weight:600;color:var(--text-primary);">PMA → PDRB</td>
-                            <td class="text-teal font-bold">+1.3245</td>
-                            <td>0.7735</td>
-                            <td>1.7123</td>
-                            <td>0.0881</td>
-                            <td>0.0062</td>
-                            <td><span class="badge-not-significant">Tidak (α=5%)</span></td>
+                            <td style="font-weight:600;color:var(--text-primary);">Pertumbuhan PDRB</td>
+                            <td class="text-teal font-bold">+0.00077</td>
+                            <td>&lt; 0.004</td>
+                            <td>0.464</td>
+                            <td><span class="badge-significant" style="color:var(--accent-teal); background:#f0fdfa;">Positif ↑</span></td>
                         </tr>
                         <tr>
-                            <td style="font-weight:600;color:var(--text-primary);">PMA → Kemiskinan</td>
-                            <td class="text-orange font-bold">−0.0002</td>
-                            <td>0.0000421</td>
-                            <td>−3.6023</td>
-                            <td>0.0004</td>
-                            <td>0.0293</td>
-                            <td><span class="badge-significant">✓ Signifikan</span></td>
+                            <td style="font-weight:600;color:var(--text-primary);">Kemiskinan</td>
+                            <td class="text-orange font-bold">−0.00015</td>
+                            <td>&lt; 0.003</td>
+                            <td>0.019</td>
+                            <td><span class="badge-significant" style="color:#2563eb; background:#eff6ff;">Negatif ↓</span></td>
                         </tr>
                         <tr>
-                            <td style="font-weight:600;color:var(--text-primary);">PMA → TPT</td>
-                            <td class="text-orange font-bold">−0.0001</td>
-                            <td>0.0000389</td>
-                            <td>−2.6622</td>
-                            <td>0.0083</td>
-                            <td>0.0284</td>
-                            <td><span class="badge-significant">✓ Signifikan</span></td>
+                            <td style="font-weight:600;color:var(--text-primary);">TPT</td>
+                            <td class="text-orange font-bold">−0.00009</td>
+                            <td>&lt; 0.020</td>
+                            <td>0.007</td>
+                            <td><span class="badge-significant" style="color:#2563eb; background:#eff6ff;">Negatif ↓</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -277,9 +269,9 @@
 
             <div class="interp-grid scroll-reveal">
                 <div class="card interp-card">
-                    <h3><span style="color:var(--accent-orange)">●</span> PMA → PDRB</h3>
-                    <p>Koefisien besar (+1.3245) namun <strong>tidak signifikan</strong> pada α=5% (p=0.088). R²=0.62% menunjukkan PMA hanya menjelaskan &lt;1% variasi PDRB.</p>
-                    <div class="interp-highlight">Variasi PDRB per Kapita antarprovinsi sangat tinggi (terutama DKI Jakarta) sehingga menginflasi standard error.</div>
+                    <h3><span style="color:var(--accent-teal)">●</span> PMA → Pertumbuhan PDRB</h3>
+                    <p>PMA terbukti <strong>signifikan secara statistik</strong> dalam meningkatkan pertumbuhan ekonomi (p &lt; 0.004) dengan arah positif (β = +0.00077).</p>
+                    <div class="interp-highlight">R² = 46.4% menunjukkan model ini memiliki daya penjelas yang cukup moderat terhadap variasi pertumbuhan PDRB.</div>
                 </div>
                 <div class="card interp-card">
                     <h3><span style="color:var(--accent-teal)">●</span> PMA → Kemiskinan</h3>

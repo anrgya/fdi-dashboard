@@ -325,8 +325,8 @@ function initCoefChart() {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['PMA → PDRB (β=1.3245)', 'PMA → Kemiskinan (β=−0.0002)', 'PMA → TPT (β=−0.0001)'],
-            datasets: [{ label: 'Koefisien', data: [1.3245, -0.0002, -0.0001], backgroundColor: [ORANGE + '55', TEAL + '55', TEAL + '55'], borderColor: [ORANGE, TEAL, TEAL], borderWidth: 1.5, borderRadius: 6 }]
+            labels: ['PMA → Pertumbuhan PDRB (β=0.00077)', 'PMA → Kemiskinan (β=−0.00015)', 'PMA → TPT (β=−0.00009)'],
+            datasets: [{ label: 'Koefisien', data: [0.00077, -0.00015, -0.00009], backgroundColor: [TEAL + '55', TEAL + '55', TEAL + '55'], borderColor: [TEAL, TEAL, TEAL], borderWidth: 1.5, borderRadius: 6 }]
         },
         options: {
             indexAxis: 'y', responsive: true, maintainAspectRatio: false,
