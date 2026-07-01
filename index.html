@@ -106,11 +106,11 @@
         <!-- ==================== SECTION 2: EDA ==================== -->
         <section class="dashboard-section" id="eda">
             <div class="section-header scroll-reveal">
-                <h2 class="section-title">Exploratory Data Analysis</h2>
-                <p class="section-subtitle">Tren nasional dan distribusi data dari 4 variabel utama (2016–2023)</p>
+                <h2 class="section-title">Eksplorasi Data (EDA) & Tren Waktu</h2>
+                <p class="section-subtitle">Perkembangan investasi asing dan indikator sosial ekonomi nasional (2016-2023)</p>
             </div>
 
-            <div class="charts-grid scroll-reveal">
+            <div class="charts-grid scroll-reveal" style="margin-bottom: 1.5rem;">
                 <div class="card chart-card">
                     <h3>Total PMA Nasional per Tahun (Juta USD)</h3>
                     <div class="chart-container-inner"><canvas id="fdiChart"></canvas></div>
@@ -129,9 +129,21 @@
                 </div>
             </div>
 
-            <div class="card chart-card scroll-reveal" style="margin-top:1.5rem;">
-                <h3>Top 10 Provinsi: Rata-rata Realisasi PMA (Juta USD)</h3>
-                <div class="chart-container-inner" style="height:320px;"><canvas id="topProvChart"></canvas></div>
+            <div class="charts-grid scroll-reveal" style="grid-template-columns: 1fr 1fr; margin-bottom: 1.5rem;">
+                <div class="card chart-card">
+                    <h3>Top 10: PMA Tertinggi (Jt USD)</h3>
+                    <div class="chart-container-inner" style="height:320px;"><canvas id="topProvChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Bottom 10: PMA Terendah (Jt USD)</h3>
+                    <div class="chart-container-inner" style="height:320px;"><canvas id="bottomProvChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="card scroll-reveal" style="margin-bottom:1.5rem; overflow-x: auto;">
+                <h3>Matriks Korelasi (Pearson) antar Variabel</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">Berdasarkan rata-rata provinsi (2016-2023)</p>
+                <div id="corrMatrixContainer" style="min-width:500px;"></div>
             </div>
 
             <div class="map-section scroll-reveal">
@@ -148,6 +160,17 @@
             <div class="section-header scroll-reveal">
                 <h2 class="section-title">Hasil Klasterisasi K-Means</h2>
                 <p class="section-subtitle">Pengelompokan 34 provinsi berdasarkan 4 variabel · k=2 · Silhouette Score: 0.482</p>
+            </div>
+
+            <div class="charts-grid scroll-reveal" style="margin-bottom:1.5rem;">
+                <div class="card chart-card">
+                    <h3>Penentuan Jumlah Klaster (Elbow Method)</h3>
+                    <div class="chart-container-inner" style="height:250px;"><canvas id="elbowChart"></canvas></div>
+                </div>
+                <div class="card chart-card">
+                    <h3>Evaluasi Model (Silhouette Score)</h3>
+                    <div class="chart-container-inner" style="height:250px;"><canvas id="silhouetteChart"></canvas></div>
+                </div>
             </div>
 
             <div class="cluster-grid scroll-reveal">

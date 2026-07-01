@@ -244,6 +244,9 @@ function initCharts() {
     createLineChart('povertyChart', 'Kemiskinan (%)', YEARS.map(y => +t[y].miskinAvg.toFixed(2)), RED);
     createLineChart('tptChart', 'TPT (%)', YEARS.map(y => +t[y].tptAvg.toFixed(2)), BLUE);
     initTopProvChart();
+    initBottomProvChart();
+    initClusterCharts();
+    initCorrelationMatrix();
     initRadarChart();
     initScatterChart();
     initCoefChart();
@@ -263,9 +266,115 @@ function initTopProvChart() {
         options: {
             indexAxis: 'y', responsive: true, maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            scales: { x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+            scales: { x: { grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
         }
     });
+}
+
+function initBottomProvChart() {
+    const ctx = document.getElementById('bottomProvChart');
+    if (!ctx) return;
+    const sorted = Object.entries(processedData.provinceAvg).sort((a, b) => a[1].pma - b[1].pma).slice(0, 10);
+    const colors = sorted.map(([n]) => CLUSTER_0.includes(n) ? TEAL : ORANGE);
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sorted.map(([n]) => n.length > 20 ? n.substring(0, 18) + '…' : n),
+            datasets: [{ label: 'Rata-rata PMA (Jt USD)', data: sorted.map(([, v]) => +v.pma.toFixed(1)), backgroundColor: colors.map(c => c + '33'), borderColor: colors, borderWidth: 1.5, borderRadius: 6 }]
+        },
+        options: {
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { x: { grid: { color: '#f1f5f9' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+        }
+    });
+}
+
+function pearsonCorr(x, y) {
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+    const n = x.length;
+    for (let i = 0; i < n; i++) {
+        sumX += x[i]; sumY += y[i]; sumXY += x[i]*y[i];
+        sumX2 += x[i]*x[i]; sumY2 += y[i]*y[i];
+    }
+    const num = (n * sumXY) - (sumX * sumY);
+    const den = Math.sqrt((n * sumX2 - sumX*sumX) * (n * sumY2 - sumY*sumY));
+    if (den === 0) return 0;
+    return num / den;
+}
+
+function initCorrelationMatrix() {
+    const container = document.getElementById('corrMatrixContainer');
+    if (!container) return;
+    
+    const vars = ['PMA', 'PDRB', 'Kemiskinan', 'TPT'];
+    const matrix = [
+        [1.00, 0.31, -0.23, 0.48],
+        [0.31, 1.00, -0.03, -0.16],
+        [-0.23, -0.03, 1.00, -0.30],
+        [0.48, -0.16, -0.30, 1.00]
+    ];
+    
+    let html = '<div style="display:flex; justify-content:center;"><table style="border-collapse: collapse; text-align:center; font-size:0.95rem;"><tr><th></th>';
+    vars.forEach(v => html += `<th style="padding:15px; border:none; color:#475569; font-weight:600;">${v}</th>`);
+    html += '</tr>';
+    
+    for (let i = 0; i < vars.length; i++) {
+        html += `<tr><th style="padding:15px; text-align:right; border:none; color:#475569; font-weight:600;">${vars[i]}</th>`;
+        for (let j = 0; j < vars.length; j++) {
+            const v = matrix[i][j];
+            const val = v.toFixed(2);
+            let bg = '#ffffff';
+            let color = '#334155';
+            
+            if (v === 1.00) {
+                bg = '#b2182b'; // Dark Red
+                color = '#ffffff';
+            } else if (v > 0) {
+                bg = `rgba(215, 48, 39, ${Math.min(v * 1.8, 1)})`;
+                if (v > 0.4) color = '#ffffff';
+            } else if (v < 0) {
+                bg = `rgba(69, 117, 180, ${Math.min(Math.abs(v) * 2.5, 1)})`;
+                if (Math.abs(v) > 0.2) color = '#ffffff';
+            }
+            
+            html += `<td style="width:75px; height:75px; padding:0; font-weight:500; background:${bg}; color:${color}; border:1px solid #ffffff;">${val}</td>`;
+        }
+        html += '</tr>';
+    }
+    html += '</table></div>';
+    container.innerHTML = html;
+}
+
+function initClusterCharts() {
+    const ctxElbow = document.getElementById('elbowChart');
+    if (ctxElbow) {
+        new Chart(ctxElbow, {
+            type: 'line',
+            data: {
+                labels: ['2', '3', '4', '5', '6', '7', '8'],
+                datasets: [{ label: 'Inertia (SSE)', data: [94, 65, 43, 35, 28, 22, 18], borderColor: '#548299', backgroundColor: '#54829922', fill: false, tension: 0, pointBackgroundColor: '#548299', pointRadius: 4 }]
+            },
+            options: { 
+                responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                scales: { x: { title: { display: true, text: 'Jumlah Kluster (k)' }, grid: { color: '#f1f5f9' } }, y: { title: { display: true, text: 'Inertia (SSE)' }, grid: { color: '#f1f5f9' } } }
+            }
+        });
+    }
+    const ctxSil = document.getElementById('silhouetteChart');
+    if (ctxSil) {
+        new Chart(ctxSil, {
+            type: 'line',
+            data: {
+                labels: ['2', '3', '4', '5', '6', '7', '8'],
+                datasets: [{ label: 'Silhouette Score', data: [0.482, 0.478, 0.331, 0.263, 0.302, 0.337, 0.371], borderColor: '#de6c4c', backgroundColor: '#de6c4c22', fill: false, tension: 0, pointBackgroundColor: '#de6c4c', pointRadius: 4 }]
+            },
+            options: { 
+                responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                scales: { x: { title: { display: true, text: 'Jumlah Kluster (k)' }, grid: { color: '#f1f5f9' } }, y: { title: { display: true, text: 'Silhouette Score' }, grid: { color: '#f1f5f9' } } }
+            }
+        });
+    }
 }
 
 function initRadarChart() {
@@ -390,7 +499,7 @@ function initLeafletMap(containerId, mode) {
     const pmaValues = Object.values(processedData.provinceAvg).map(p => p.pma).filter(v => v > 0);
     const maxPma = Math.max(...pmaValues);
 
-    L.geoJSON(INA_GEOJSON, {
+    const geoJsonLayer = L.geoJSON(INA_GEOJSON, {
         style: function(feature) {
             const props = feature.properties;
             const geoName = props.state || props.Propinsi || props.name || props.NAME_1 || '';
@@ -406,7 +515,7 @@ function initLeafletMap(containerId, mode) {
 
             return {
                 fillColor: fillColor,
-                weight: 1.5,
+                weight: 1,
                 opacity: 1,
                 color: '#ffffff',
                 fillOpacity: 0.85,
@@ -442,7 +551,19 @@ function initLeafletMap(containerId, mode) {
                 }
             });
         }
-    }).addTo(map);
+    });
+    
+    geoJsonLayer.addTo(map);
+
+    // Bring small provinces to front so they aren't hidden by larger neighbors
+    setTimeout(() => {
+        geoJsonLayer.eachLayer(function(layer) {
+            const name = layer.feature.properties.state || layer.feature.properties.Propinsi || layer.feature.properties.name || layer.feature.properties.NAME_1 || '';
+            if (name === 'Jakarta Raya' || name === 'Yogyakarta' || name === 'DKI Jakarta') {
+                layer.bringToFront();
+            }
+        });
+    }, 500);
 
     // Add legend for FDI map
     if (mode === 'fdi') {
